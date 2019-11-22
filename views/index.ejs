@@ -1,0 +1,44 @@
+<html>
+    <head></head>
+    <body>
+        <label>
+            Level: <%= level %> 
+        </label>
+        <label>
+            Plane: <%= plane %> 
+        </label>
+        <form method="POST" action="/result">
+            <input name="num" type="number">
+            <input type="submit">
+        </form>
+        
+        <form method="POST" action="/plane">
+            <button type="submit">"Select Plane"</button>
+        </form>
+        
+        <form method="POST" action="/level">
+            <button type="submit"> "Select Level"</button>
+        </form>
+        
+        <form method="POST" action="/unlock-plane">
+            <button type="submit">"Unlock next plane" </button>
+        </form>
+        
+        <form method="POST" action="/unlock-level">
+            <button type="submit"> "Unlock next Level"</button>
+        </form>
+        
+        <form method="POST" action="/logout">
+            <button type="submit"> Logout</button>
+        </form>
+        
+        <div>
+            <ol>
+                <% for(let s= 0; s < 5; s++){ %>
+                    <li><%= score[s] %></li>
+                <% } %>
+            </ol>
+        </div>
+    
+    </body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html>
+    <head></head>
+    <body>
+        <form method="POST" action="/">
+            <select name="plane">
+                <% for(let i = 0; i < unlocked && i < 10; i++) { %>
+                    <option value="<%= i+1 %>"><%= i+1 %></option>
+                <% } %>
+            </select>
+            <input type="submit">
+        </form>
+        
+    </body>
+</html>
