@@ -263,9 +263,8 @@ app.post('/result', (req, res, next) => {
             a = a.map(Number);
             a.sort((x, y) => x - y);
             a.reverse();
-            if (a >= 6)
+            if (a >= 11)
                 a.pop();
-            console.log("asss", a);
             Highscore.findByIdAndUpdate(1, { $set: { score: a } })
                 .then(result => {
                     res.redirect('/');

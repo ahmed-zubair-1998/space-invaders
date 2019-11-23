@@ -1,0 +1,42 @@
+"""""""""""CHANGES MADE"""""""""""""""""""""""
+
+"game.ejs" "/" me render krta login "/" pr redirect krta ab
+
+""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""INSTRUCTIONS""""""""""""""""""""""""""""""""
+
+cookies bs token rkh ri wo authetication k lye unhe chernay ki zarurat ni
+
+baki jo info wagaira rkhwani current level plane ki wo session me pri
+
+"sess" jo use kia hua wo session
+
+agr user login hta to uskay sessme pra hta
+    1. username = username
+    2. level = current level
+    3. plane = current plane
+    
+    login jb hta current level aur plane 1 krta me lkin ye change ho skta
+    
+agar user login as guest sess me pra
+    1. level = same
+    2. plane = same
+    3. maxLevel = max level achieved by guest
+    4. maxPlane = max plane achieved by guest
+    
+logout jb hta session aur cookies handle krleta clear krdeta sb kch
+
+"/result" pr POST req kro agr aur body data me "num" ho to wo highscores ki list me add krta. gameover pr ye krwa lein. iskay bad khudi index p redirect krdeta
+
+"/unlock-level" pr post req kro to dkhta agr user ka jo current level jo k sess.level me pra wo user k max level k equal to phr wo nya level unlock krdeta. guest aur login dono cases handle. index p redirect krdeta. same goes for "/unlock-plane". agr dono aik time pr krne to phle koi aik call krlo us se doosre p redirect krlo aur doosray se index pr
+
+"/level" aur "/plane" current level aur plane select krne k lye. ye POST req krte "/" pr aur wo sess me level ya plane update kr k GET krta "/" pr jo k index udr game chl ri
+
+"game.ejs" me logout ki functionality dal.
+
+aur agr krske to background color black krde blue ki bjaye. retro feel aye jese assembly dos box me ati.
+
+thenks
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
