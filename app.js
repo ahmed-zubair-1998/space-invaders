@@ -39,11 +39,10 @@ app.get('/', auth, (req, res, next) => {
         .exec()
         .then(hs => {
             highscores = hs.score;
-            console.log("High scores: " + hs.score);
-            res.render('index', {
+            res.render('game', {
                 level: sess.level,
                 plane: sess.plane,
-                score: hs.score
+                results: hs.score
             });
         });
 
@@ -130,7 +129,7 @@ app.post('/login', (req, res, next) => {
                         sess.level = 1;
                         sess.plane = 1;
                         res.cookie("token", token);
-                        return res.render('game', { results: highscores });
+                        return res.redirect('/');
                     }
                     return res.render('login', { label: "Auth failed" });
                 });
@@ -145,7 +144,7 @@ app.post('/login', (req, res, next) => {
         sess.maxLevel = 1;
         sess.maxPlane = 1;
         res.cookie("token", "guest");
-        return res.render('game', { results: highscores });
+        return res.redirect('/');
     }
 });
 
