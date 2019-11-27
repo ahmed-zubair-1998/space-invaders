@@ -359,10 +359,10 @@ PlayState.prototype.enter = function (game) {
     var ranks = this.config.invaderRanks + 0.1 * limitLevel;
     var files = this.config.invaderFiles + 0.2 * limitLevel;
     var invaders = [];
-    for (var rank = 0; rank < ranks; rank++) {
-        for (var file = 0; file < files; file++) {
+    for (var rank = 0; rank < 2; rank++) {
+        for (var file = 0; file < 3; file++) {
             invaders.push(new Invader(
-                (game.width / 2) + ((files / 2 - file) * 200 / files),
+                (game.width / 4) + ((files / 2 - file) * 200 / files) + Math.random(game.gameBounds.left, game.gameBounds.right),
                 (game.gameBounds.top + rank * 20),
                 rank, file, 'Invader'));
         }
@@ -567,13 +567,16 @@ PlayState.prototype.draw = function (game, dt, ctx) {
     var img = new Image();
     img.src = "static/assets/jet-us.png";
     ctx.fillStyle = ctx.createPattern(img, 'repeat-y');
-    console.log(this.ship.x, this.ship.y);
-    ctx.fillRect(this.ship.x - (this.ship.width / 2), this.ship.y - ((this.ship.height / 2)-20), this.ship.width, this.ship.height);
+    ctx.fillRect(this.ship.x - (this.ship.width / 2), this.ship.y - ((this.ship.height / 2) - 20), this.ship.width, this.ship.height);
 
     //  Draw invaders.
-    ctx.fillStyle = '#006600';
+    var img = document.getElementById("eplane");
     for (var i = 0; i < this.invaders.length; i++) {
         var invader = this.invaders[i];
+        ctx.drawImage(img, invader.x, invader.y);
+        var img = new Image();
+        img.src = "static/assets/jet-e.png";
+        ctx.fillStyle = ctx.createPattern(img, 'repeat-y');
         ctx.fillRect(invader.x - invader.width / 2, invader.y - invader.height / 2, invader.width, invader.height);
     }
 
@@ -765,8 +768,8 @@ function Invader(x, y, rank, file, type) {
     this.rank = rank;
     this.file = file;
     this.type = type;
-    this.width = 18;
-    this.height = 14;
+    this.width = 50;
+    this.height = 50;
 }
 
 /*
