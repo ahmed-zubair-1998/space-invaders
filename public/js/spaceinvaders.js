@@ -591,7 +591,7 @@ PlayState.prototype.draw = function (game, dt, ctx) {
     ctx.fillStyle = '#ff0000';
     for (var i = 0; i < this.rockets.length; i++) {
         var rocket = this.rockets[i];
-        ctx.fillRect(rocket.x, rocket.y - 2, 1, 4);
+        ctx.fillRect(rocket.x, rocket.y - 2, 2, 8);
     }
 
     //  Draw info.

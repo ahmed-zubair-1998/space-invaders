@@ -55,3 +55,14 @@
      top: 0;
      text-align: center;
  }
+
+ .selection {
+     position: absolute;
+     align-content: center;
+     height: 150px;
+     width: 400px;
+     float:right;
+     padding: 10px;
+     margin-top:10px;
+     margin-left: 600px;
+ }
