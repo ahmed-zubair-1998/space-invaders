@@ -61,8 +61,56 @@
      align-content: center;
      height: 150px;
      width: 400px;
-     float:right;
+     float: right;
      padding: 10px;
-     margin-top:10px;
+     margin-top: 10px;
      margin-left: 600px;
+ }
+
+ .background {
+     background-color: #121212;
+     color: white;
+     height: 100%;
+ }
+
+ .plane-heading {
+     text-align: center;
+     padding: 20px;
+ }
+
+ .cbox {
+     height: 30%;
+     padding: 20px;
+     margin: 0px 20px;
+ }
+
+ .selectBox {
+     width: 100px;
+     height: 100px;
+     background: white;
+     color: #121212;
+     text-align: center;
+     border-radius: 5%;
+     display: inline-block;
+     padding: 10px;
+     margin: 0px 5px;
+ }
+
+ .active,
+ .selectBox:hover {
+     background-color: #666;
+     color: white;
+ }
+
+ .playDiv {
+     margin: auto;
+     text-align: center;
+     margin: 30px 0px;
+ }
+
+ .playbtn {
+     background: white;
+     border-radius: 7%;
+     color: #121212;
+     padding: 20px;
  }

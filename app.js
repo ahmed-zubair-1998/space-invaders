@@ -34,6 +34,10 @@ app.use((req, res, next) => {
 
 app.get('/', auth, (req, res, next) => {
     sess = req.session;
+    res.render('selection', { session: sess });
+});
+app.get('/game', auth, (req, res, next) => {
+    sess = req.session;
 
     Highscore.findOne({ _id: 1 })
         .exec()
@@ -42,9 +46,10 @@ app.get('/', auth, (req, res, next) => {
             res.render('game', {
                 level: sess.level,
                 plane: {
-                    name:"Junkers Ju 87 Stuka",
-                    info:"Plane Type: Dive Bomber. \n Fought For: Axis (Germany) \n History: This was the plane that struck terror into the heart of Poland, and it came to symbolize the devastation of the Blitzkrieg at the beginning of the war. Its ability to bomb with deadly accuracy, coupled with the sirens dubbed “Jericho trumpets,” made ice water run through the veins. It was obsolete by the Battle of Britain. And it was withdrawn from combat midway through the war in the face of superior fighters like the Spitfire. But it served its purpose early on, and may still be the most recognizable German WWII plane today. ",
-                    pic:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQPWvWzxHMwz420swOF7tWksef85AvrqkSN55WUrxQjvgPvZ9YE"},
+                    name: "Junkers Ju 87 Stuka",
+                    info: "Plane Type: Dive Bomber. \n Fought For: Axis (Germany) \n History: This was the plane that struck terror into the heart of Poland, and it came to symbolize the devastation of the Blitzkrieg at the beginning of the war. Its ability to bomb with deadly accuracy, coupled with the sirens dubbed “Jericho trumpets,” made ice water run through the veins. It was obsolete by the Battle of Britain. And it was withdrawn from combat midway through the war in the face of superior fighters like the Spitfire. But it served its purpose early on, and may still be the most recognizable German WWII plane today. ",
+                    pic: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQPWvWzxHMwz420swOF7tWksef85AvrqkSN55WUrxQjvgPvZ9YE"
+                },
                 results: hs.score
             });
         });
