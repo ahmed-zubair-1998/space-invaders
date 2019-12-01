@@ -26,6 +26,8 @@ var KEY_LEFT = 37;
 var KEY_RIGHT = 39;
 var KEY_SPACE = 32;
 
+const sess = document.getElementById('help');
+
 //  Creates an instance of the Game class.
 function Game() {
 
@@ -39,8 +41,8 @@ function Game() {
         invaderDropDistance: 20,
         rocketVelocity: 120,
         rocketMaxFireRate: 2,
-        gameWidth: 400,
-        gameHeight: 300,
+        gameWidth: 520,
+        gameHeight: 350,
         fps: 50,
         debugMode: false,
         invaderRanks: 5,
@@ -51,14 +53,21 @@ function Game() {
         limitLevelIncrease: 25
     };
 
+    
+    
     //  All state is in the variables below.
-    this.lives = 3;
+    this.lives = parseInt(sess.dataset.lives);
     this.width = 0;
     this.height = 0;
     this.gameBounds = { left: 0, top: 0, right: 0, bottom: 0 };
     this.intervalId = 0;
-    this.score = 0;
-    this.level = 1;
+    this.score = parseInt(sess.dataset.score);
+    this.level = parseInt(sess.dataset.level);
+    
+    console.log(parseInt(sess.dataset.level));
+    
+    
+    
 
     //  The state stack.
     this.stateStack = [];
@@ -118,7 +127,7 @@ Game.prototype.start = function () {
     this.moveToState(new WelcomeState());
 
     //  Set the game variables.
-    this.lives = 3;
+    this.lives = parseInt(sess.dataset.lives);
     this.config.debugMode = /debug=true/.test(window.location.href);
 
     //  Start the game loop.
@@ -276,9 +285,9 @@ WelcomeState.prototype.draw = function (game, dt, ctx) {
 WelcomeState.prototype.keyDown = function (game, keyCode) {
     if (keyCode == KEY_SPACE) {
         //  Space starts the game.
-        game.level = 1;
-        game.score = 0;
-        game.lives = 3;
+        game.level = parseInt(sess.dataset.level);
+        game.score = parseInt(sess.dataset.score);
+        game.lives = parseInt(sess.dataset.lives);
         game.moveToState(new LevelIntroState(game.level));
     }
 };
@@ -310,9 +319,9 @@ GameOverState.prototype.draw = function (game, dt, ctx) {
 GameOverState.prototype.keyDown = function (game, keyCode) {
     if (keyCode == KEY_SPACE) {
         //  Space restarts the game.
-        game.lives = 3;
-        game.score = 0;
-        game.level = 1;
+        game.lives = parseInt(sess.dataset.lives);
+        game.score = parseInt(sess.dataset.score);
+        game.level = parseInt(sess.dataset.level);
         game.moveToState(new LevelIntroState(1));
     }
 };
@@ -362,8 +371,8 @@ PlayState.prototype.enter = function (game) {
     for (var rank = 0; rank < 2; rank++) {
         for (var file = 0; file < 3; file++) {
             invaders.push(new Invader(
-                (game.width / 4) + ((files / 2 - file) * 200 / files) + Math.random(game.gameBounds.left, game.gameBounds.right),
-                (game.gameBounds.top + rank * 20),
+                (game.width / 4) + ((files / 2 - file) * 600 / files) + Math.random(game.gameBounds.left, game.gameBounds.right),
+                (game.gameBounds.top + rank * 50),
                 rank, file, 'Invader'));
         }
     }
@@ -501,9 +510,7 @@ PlayState.prototype.update = function (game, dt) {
         //  If we have no invader for game file, or the invader
         //  for game file is futher behind, set the front
         //  rank invader to game one.
-        if (!frontRankInvaders[invader.file] || frontRankInvaders[invader.file].rank < invader.rank) {
-            frontRankInvaders[invader.file] = invader;
-        }
+        frontRankInvaders[i] = invader;
     }
 
     //  Give each front rank invader a chance to drop a bomb.
@@ -544,13 +551,42 @@ PlayState.prototype.update = function (game, dt) {
     }
 
     //  Check for failure
-    if (game.lives <= 0) {
+    if (game.lives <= 0) { 
+    
+        game.stop();
+        
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+            console.log(this.status);
+            if(this.readyState == 4 && this.status == 200){
+                window.location.href = 'http://localhost:3000/game';
+            } 
+        } 
+        xhttp.open('POST', url='http://localhost:3000/result', true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(`score=${game.score}`); 
+        
         game.moveToState(new GameOverState());
     }
 
     //  Check for victory
     if (this.invaders.length === 0) {
         game.score += this.level * 50;
+        game.stop();
+        
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+            console.log(this.status);
+            if(this.readyState == 4 && this.status == 200){
+                window.location.href = 'http://localhost:3000/game';
+            }
+        }
+        xhttp.open('POST', url='http://localhost:3000/unlock-level', true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(`score=${game.score}&lives=${game.lives}`);
+            
+          
+        
         game.level += 1;
         game.moveToState(new LevelIntroState(game.level));
     }
@@ -584,7 +620,7 @@ PlayState.prototype.draw = function (game, dt, ctx) {
     ctx.fillStyle = '#ff5555';
     for (var i = 0; i < this.bombs.length; i++) {
         var bomb = this.bombs[i];
-        ctx.fillRect(bomb.x - 2, bomb.y - 2, 4, 4);
+        ctx.fillRect(bomb.x - 2, bomb.y - 2, 8, 8);
     }
 
     //  Draw rockets.

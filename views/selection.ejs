@@ -12,31 +12,40 @@
 
 <body>
     <div class="container-fluid background">
-        <p id="session" style="display: none"><%=session%></p>
-        <h1 class="display-3 plane-heading">Select Plane and Stage</h1>
-        <div class="cbox">
-            <h3>Select Plane: </h3>
-            <br>
-            <%for( var i=0; i<10; i++){%>
-            <button class="selectBox" onclick="selectPlane(this)">
-                <h4><%=i+1%> </h4>
-            </button>
-            <%}%>
-        </div>
-        <div class="cbox">
-            <h3>Select Stage: </h3>
-            <br>
-            <%for( var i=0; i<10; i++){%>
-            <button class="selectBox" onclick="selectLevel(this)" data-arg1=<%=session%>>
-                <h4><%=i+1%></h4>
-            </button>
-            <%}%>
-        </div>
-        <div class="playDiv">
-            <form method="GET" action="/game">
+		<form method="POST" class="logout" action="/logout">
+            <button type="submit" class="playbtn"> Logout</button>
+        </form>
+        <h3 class="display-4 plane-heading">Main Selection Menu</h3>
+        
+        <form method="POST" action="/">
+            <h4>Select Level</h4>
+            <% for(let i = 1; i <= level && i <= 10; i++) { %>
+                <label class="radio-inline">
+                  <input type="radio" name="level" value= <%= i %>
+                         <% if(i === 1) { %>
+                            <%= "checked" %>
+                         <% } %>
+                         > <%= i %>
+                </label>
+            <% } %>
+            
+            <h4>Select Plane</h4>
+            <% for(let i = 1; i <= plane && i <= 10; i++) { %>
+                <label class="radio-inline">
+                  <input type="radio" name="plane" value= <%= i %>
+                         <% if(i === 1) { %>
+                            <%= "checked" %>
+                         <% } %>
+                         > <%= i %>
+                </label>
+            <% } %>
+            
+            <div class="playDiv">
             <button type="submit" class="playbtn"><h4>P L A Y</h4></button>
-            </form>
         </div>
+            
+        </form>
+        
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
