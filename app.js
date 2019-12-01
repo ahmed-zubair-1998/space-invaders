@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const User = require('./models/user');
+const Plane = require('./models/plane');
 const Highscore = require('./models/highscore');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -19,7 +20,7 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(session({ secret: 'ssshhhhh', saveUninitialized: true, resave: true }));
 
-console.log("OK")
+console.log("OK") 
 var sess;
 var highscores;
 mongoose.connect('mongodb+srv://ahmed:zubair@cluster0-qdtb8.mongodb.net/test?retryWrites=true&w=majority')
@@ -34,10 +35,10 @@ app.use((req, res, next) => {
     next();
 });
 
-
 app.get('/', auth, (req, res, next) => {
     sess = req.session;
-    res.render('selection', { session: sess });
+    console.log("AJAJAAA");
+    res.render('selection', { level: sess.maxLevel, plane: sess.maxPlane });
 });
 app.get('/game', auth, (req, res, next) => {
     sess = req.session;
@@ -45,20 +46,36 @@ app.get('/game', auth, (req, res, next) => {
     Highscore.findOne({ _id: "1" })
         .exec()
         .then(hs => {
-            highscores = hs.hs;
-            res.render('game', {
-                level: sess.level,
-                plane: {
-                    name: "Junkers Ju 87 Stuka",
-                    info: "Plane Type: Dive Bomber. \n Fought For: Axis (Germany) \n History: This was the plane that struck terror into the heart of Poland, and it came to symbolize the devastation of the Blitzkrieg at the beginning of the war. Its ability to bomb with deadly accuracy, coupled with the sirens dubbed “Jericho trumpets,” made ice water run through the veins. It was obsolete by the Battle of Britain. And it was withdrawn from combat midway through the war in the face of superior fighters like the Spitfire. But it served its purpose early on, and may still be the most recognizable German WWII plane today. ",
-                    pic: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQPWvWzxHMwz420swOF7tWksef85AvrqkSN55WUrxQjvgPvZ9YE"
-                },
-                results: highscores
-            });
+        
+            Plane.findOne({ _id: 1 })
+            .exec()
+            .then(pl => {
+                let p = sess.plane - 1;
+                let name = pl.arr[p].name;
+                let info = pl.arr[p].info;
+                let pic = pl.arr[p].pic;
+                highscores = hs.hs;
+                res.render('game', {
+                    level: sess.level,
+                    lives: sess.lives,
+                    score: sess.score,
+                    plane: {
+                        name: name,
+                        info: info,
+                        pic: pic
+                    },
+                    results: highscores
+                });
+                
+            })
+            
+            
+            
         });
 });
 
 app.post('/', auth, (req, res, next) => {
+    console.log(req.body);
     sess = req.session;
     console.log(req.body);
     if (req.body.level)
@@ -66,11 +83,11 @@ app.post('/', auth, (req, res, next) => {
     if (req.body.plane)
         sess.plane = parseInt(req.body.plane);
 
-    res.redirect('/');
+    res.redirect('/game');
 });
 
 app.get('/login', (req, res, next) => {
-    res.render('login');
+    res.render('login'); 
 });
 
 app.get('/signup', (req, res, next) => {
@@ -133,10 +150,16 @@ app.post('/login', (req, res, next) => {
                                 expiresIn: "1h"
                             }
                         );
+                                        
+                        
                         sess = req.session;
                         sess.username = user[0].username;
                         sess.level = 1;
+                        sess.score = 0;
                         sess.plane = 1;
+                        sess.lives = 3;
+                        sess.maxLevel = user[0].level;
+                        sess.maxPlane = user[0].plane;
                         res.cookie("token", token);
                         return res.redirect('/');
                     }
@@ -150,7 +173,9 @@ app.post('/login', (req, res, next) => {
         sess = req.session;
         sess.level = 1;
         sess.plane = 1;
+        sess.score = 0;
         sess.maxLevel = 1;
+        sess.lives = 3;
         sess.maxPlane = 1;
         res.cookie("token", "guest");
         return res.redirect('/');
@@ -186,15 +211,26 @@ app.post('/level', (req, res, next) => {
 });
 
 app.post('/unlock-level', (req, res, next) => {
+    console.log("unlcok-level");
     sess = req.session;
+    
+    
+    console.log(req.body);
+    sess.score = req.body.score;
+    sess.lives = req.body.lives;
+    
     if (sess.level === 10)
-        return res.redirect('/');
+        return res.redirect('/unlock-plane');
     if (!sess.username) {
         if (sess.level === sess.maxLevel) {
             sess.maxLevel += 1;
             sess.level += 1;
+            res.redirect('/unlock-plane');
         }
-        res.redirect('/');
+        else{
+            sess.level += 1;
+            res.redirect('/unlock-plane');
+        }
     }
     else {
         const user = User.findOne({ username: sess.username })
@@ -204,11 +240,13 @@ app.post('/unlock-level', (req, res, next) => {
                     User.findByIdAndUpdate(user._id, { $set: { level: sess.level + 1 } })
                         .then(user2 => {
                             sess.level += 1;
-                            res.redirect('/');
+                            sess.maxLevel += 1;
+                            res.redirect('/unlock-plane');
                         });
                 }
                 else {
-                    res.redirect('/');
+                    sess.level += 1;
+                    res.redirect('/unlock-plane');
                 }
             });
     }
@@ -216,16 +254,20 @@ app.post('/unlock-level', (req, res, next) => {
 
 })
 
-app.post('/unlock-plane', (req, res, next) => {
+app.get('/unlock-plane', (req, res, next) => {
     sess = req.session;
     if (sess.plane === 10)
-        return res.redirect('/');
+        return res.redirect('/game');
     if (!sess.username) {
         if (sess.plane === sess.maxPlane) {
             sess.maxPlane += 1;
             sess.plane += 1;
+            res.redirect('/game');
         }
-        res.redirect('/');
+        else{
+            sess.plane += 1;
+            res.redirect('/game');
+        }
     }
     else {
         const user = User.findOne({ username: sess.username })
@@ -235,7 +277,8 @@ app.post('/unlock-plane', (req, res, next) => {
                     User.findByIdAndUpdate(user._id, { $set: { plane: sess.plane + 1 } }, { new: true })
                         .then(user2 => {
                             sess.plane += 1;
-                            res.redirect('/');
+                            sess.maxPlane += 1;
+                            res.redirect('/game');
                         })
                         .catch(err => {
                             console.log(err);
@@ -243,7 +286,8 @@ app.post('/unlock-plane', (req, res, next) => {
 
                 }
                 else {
-                    res.redirect('/');
+                    sess.plane += 1;
+                    res.redirect('/game');
                 }
             })
             .catch(err => {
@@ -255,34 +299,58 @@ app.post('/unlock-plane', (req, res, next) => {
 });
 
 app.post('/logout', (req, res, next) => {
+    console.log(req.body);
     sess = req.session;
     res.clearCookie("token");
     req.session.destroy();
     res.redirect('/login');
 });
 
+function compare(a, b) {
+  
+    let sA = parseInt(a.score);
+    let sB = parseInt(b.score);
+
+  let comparison = 0;
+  if (sA > sB) {
+    comparison = 1;
+  } else if (sA < sB) {
+    comparison = -1;
+  }
+  return comparison * -1;
+} 
+ 
 app.post('/result', (req, res, next) => {
+    sess = req.session;
+    sess.score = 0;
+    sess.lives = 3;
+    console.log("result");
     Highscore.findOne({ _id: 1 })
         .exec()
         .then(hs => {
-            console.log(hs);
-            console.log(req.body.num);
-            hs.score.push(req.body.num);
-            let a = hs.score;
-            a = a.map(Number);
-            a.sort((x, y) => x - y);
-            a.reverse();
+            let u = "guest";
+            if(sess.username)
+                u = sess.username;
+            hs.hs.push({user: u, score: req.body.score})
+            let a = hs.hs;
+            console.log(a);
+            a.sort(compare);
             if (a >= 11)
                 a.pop();
-            Highscore.findByIdAndUpdate(1, { $set: { score: a } })
+            Highscore.findByIdAndUpdate(1, { $set: { hs: a } })
                 .then(result => {
+                    
                     res.redirect('/');
                 });
         });
 });
 
-
-
+app.post('/selection', (req, res, next) => {
+    sess = req.session;
+    res.render('selection', { level: sess.maxLevel, plane: sess.maxPlane });
+})
+ 
+ 
 app.use((req, res, next) => {
     const err = new Error('Not Found');
     err.status = 400;

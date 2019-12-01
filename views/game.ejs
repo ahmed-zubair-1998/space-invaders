@@ -25,11 +25,11 @@
                 <img class="img-fluid" src="<%= plane.pic %>">
                 <div class="jumbotron" style="margin-top: -50px;">
                     <h5 class="display-6">
-                        <%= plane.name %>
+                        <%- plane.name %>
                     </h5>
                     <!-- <hr class="my-4"> -->
                     <p id="p_info" class="lead">
-                        <%= plane.info %>
+                        <%- plane.info %>
                     </p>
                 </div>
             </div>
@@ -57,6 +57,12 @@
                 <br>
                 <button type="button" class="playbtn" data-toggle="modal" data-target="#exampleModal">Show Leaderboard
                 </button>
+                
+                <form method="POST" action="/selection">
+                    <button type="submit" class="playbtn">Select Plane/Level
+                    </button>
+                </form>
+                
 
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -72,7 +78,7 @@
                             <div class="modal-body">
                                 <ul class="list-group">
                                     <%for( var i=0; i<10 && results!=null; i++){%>
-                                    <li class="list-group-item"><%=results[i][0].player_id%>:<%=results[i][0].score%>
+                                    <li class="list-group-item"><%=results[i].user%>:<%=results[i].score%>
                                     </li>
                                     <%}%>
                                                 </ul>
@@ -86,6 +92,7 @@
             </div>
         </div>  
     </div>
+    <div data-lives="<%= lives %>" data-level="<%= level %>" data-score="<%= score %>" id="help"></div> 
     
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
