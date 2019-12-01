@@ -19,6 +19,7 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(session({ secret: 'ssshhhhh', saveUninitialized: true, resave: true }));
 
+console.log("OK")
 var sess;
 var highscores;
 mongoose.connect('mongodb+srv://ahmed:zubair@cluster0-qdtb8.mongodb.net/test?retryWrites=true&w=majority')
