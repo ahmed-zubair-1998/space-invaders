@@ -38,6 +38,7 @@
      position: absolute;
      left: 0;
      text-align: center;
+     margin-left: 10px;
  }
 
  h3 {
@@ -65,6 +66,19 @@
      padding: 10px;
      margin-top: 10px;
      margin-left: 600px;
+ }
+
+ .logout {
+     text-align: right;
+     position: absolute;
+     align-content: center;
+     height: 150px;
+     width: 400px;
+     float: right;
+     padding: 10px;
+     margin-top: 10px;
+     margin-left: 900px;
+
  }
 
  .background {

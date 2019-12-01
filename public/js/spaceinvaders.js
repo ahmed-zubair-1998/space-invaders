@@ -39,8 +39,8 @@ function Game() {
         invaderDropDistance: 20,
         rocketVelocity: 120,
         rocketMaxFireRate: 2,
-        gameWidth: 400,
-        gameHeight: 300,
+        gameWidth: 520,
+        gameHeight: 350,
         fps: 50,
         debugMode: false,
         invaderRanks: 5,
@@ -362,8 +362,8 @@ PlayState.prototype.enter = function (game) {
     for (var rank = 0; rank < 2; rank++) {
         for (var file = 0; file < 3; file++) {
             invaders.push(new Invader(
-                (game.width / 4) + ((files / 2 - file) * 200 / files) + Math.random(game.gameBounds.left, game.gameBounds.right),
-                (game.gameBounds.top + rank * 20),
+                (game.width / 4) + ((files / 2 - file) * 600 / files) + Math.random(game.gameBounds.left, game.gameBounds.right),
+                (game.gameBounds.top + rank * 50),
                 rank, file, 'Invader'));
         }
     }
@@ -501,9 +501,7 @@ PlayState.prototype.update = function (game, dt) {
         //  If we have no invader for game file, or the invader
         //  for game file is futher behind, set the front
         //  rank invader to game one.
-        if (!frontRankInvaders[invader.file] || frontRankInvaders[invader.file].rank < invader.rank) {
-            frontRankInvaders[invader.file] = invader;
-        }
+        frontRankInvaders[i] = invader;
     }
 
     //  Give each front rank invader a chance to drop a bomb.
@@ -584,7 +582,7 @@ PlayState.prototype.draw = function (game, dt, ctx) {
     ctx.fillStyle = '#ff5555';
     for (var i = 0; i < this.bombs.length; i++) {
         var bomb = this.bombs[i];
-        ctx.fillRect(bomb.x - 2, bomb.y - 2, 4, 4);
+        ctx.fillRect(bomb.x - 2, bomb.y - 2, 8, 8);
     }
 
     //  Draw rockets.

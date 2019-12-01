@@ -3,6 +3,7 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 const User = require('./models/user');
 const Highscore = require('./models/highscore');
 const bcrypt = require('bcryptjs');
@@ -15,6 +16,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(morgan('dev'));
 app.use(session({ secret: 'ssshhhhh', saveUninitialized: true, resave: true }));
 
 var sess;
@@ -39,10 +41,10 @@ app.get('/', auth, (req, res, next) => {
 app.get('/game', auth, (req, res, next) => {
     sess = req.session;
 
-    Highscore.findOne({ _id: 1 })
+    Highscore.findOne({ _id: "1" })
         .exec()
         .then(hs => {
-            highscores = hs.score;
+            highscores = hs.hs;
             res.render('game', {
                 level: sess.level,
                 plane: {
@@ -50,11 +52,9 @@ app.get('/game', auth, (req, res, next) => {
                     info: "Plane Type: Dive Bomber. \n Fought For: Axis (Germany) \n History: This was the plane that struck terror into the heart of Poland, and it came to symbolize the devastation of the Blitzkrieg at the beginning of the war. Its ability to bomb with deadly accuracy, coupled with the sirens dubbed “Jericho trumpets,” made ice water run through the veins. It was obsolete by the Battle of Britain. And it was withdrawn from combat midway through the war in the face of superior fighters like the Spitfire. But it served its purpose early on, and may still be the most recognizable German WWII plane today. ",
                     pic: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQPWvWzxHMwz420swOF7tWksef85AvrqkSN55WUrxQjvgPvZ9YE"
                 },
-                results: hs.score
+                results: highscores
             });
         });
-
-
 });
 
 app.post('/', auth, (req, res, next) => {

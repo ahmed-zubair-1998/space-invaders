@@ -7,22 +7,30 @@
     <link rel="stylesheet" type="text/css" href="static/css/typeography.css">
     <link rel="stylesheet" type="text/css" href="static/css/main.css">
     <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
+
 </head>
+<style>
+    #p_info {
+        height: 250px;
+        width: 250px;
+        overflow: auto;
+    }
+</style>
 
 <body>
     <div class="row">
         <div class="col-lg-2">
             <div class="plane-info">
                 <h3>Historical Plane Info</h3>
-                <div class="jumbotron">
-                    <h1 class="display-4">
+                <img class="img-fluid" src="<%= plane.pic %>">
+                <div class="jumbotron" style="margin-top: -50px;">
+                    <h5 class="display-6">
                         <%= plane.name %>
-                    </h1>
-                    <p class="lead">
+                    </h5>
+                    <!-- <hr class="my-4"> -->
+                    <p id="p_info" class="lead">
                         <%= plane.info %>
                     </p>
-                    <hr class="my-4">
-                    <img class="img-fluid" src="<%= plane.pic %>">
                 </div>
             </div>
         </div>
@@ -34,25 +42,61 @@
 
             <canvas id="gameCanvas"></canvas>
         </div>
-        <form method="POST" class="selection" action="/logout">
-            <button type="submit" class="playbtn"> Logout</button>
-        </form>
         <div class="col-lg-2">
+            <h3>Menu</h3>
             <div class="leaderboard">
-                <h3>Leaderboard</h3>
-                <ul class="list-group">
-                    <%for( var i=0; i<10; i++){%>
-                    <li class="list-group-item"><%=i+1%>:<%=results[i]%></li>
-                    <%}%>
-                </ul>
+                <br>
+                <br>
+                <button class="playbtn" onclick="pauseGame()">Pause
+                    Game</button>
+                <br>
+                <br>
+                <form method="POST" action="/logout">
+                    <button type="submit" class="playbtn"> Logout</button>
+                </form>
+                <br>
+                <button type="button" class="playbtn" data-toggle="modal" data-target="#exampleModal">Show Leaderboard
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Leaderboard</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <ul class="list-group">
+                                    <%for( var i=0; i<10 && results!=null; i++){%>
+                                    <li class="list-group-item"><%=results[i][0].player_id%>:<%=results[i][0].score%>
+                                    </li>
+                                    <%}%>
+                                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        
+        </div>  
     </div>
     
 
-
-    <script src="static/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+	<script>
+        function pauseGame() {
+            alert("The game is paused! Click OK to resume");
+        }
+    </script>
+    <script src="static/js/bootstrap.min.js"></script>
     <script src="static/js/starfield.js"></script>
     <script src="static/js/spaceinvaders.js"></script>
     <script>

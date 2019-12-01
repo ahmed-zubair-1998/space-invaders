@@ -13,15 +13,18 @@
 <body>
     <div class="container-fluid background">
         <p id="session" style="display: none"><%=session%></p>
-        <h1 class="display-3 plane-heading">Select Plane and Stage</h1>
+		<form method="POST" class="logout" action="/logout">
+            <button type="submit" class="playbtn"> Logout</button>
+        </form>
+        <h3 class="display-4 plane-heading">Main Selection Menu</h3>
         <div class="cbox">
             <h3>Select Plane: </h3>
             <br>
-            <%for( var i=0; i<10; i++){%>
-            <button class="selectBox" onclick="selectPlane(this)">
-                <h4><%=i+1%> </h4>
-            </button>
-            <%}%>
+			<img src=http://www.aircraftaces.com/images/top-p51-mustang.jpg> North American P-51 Mustang </img>
+			<img src=http://www.aircraftaces.com/images/top-fw-190.jpg> Focke-Wulf Fw-190 </img>
+			<img src=http://www.aircraftaces.com/images/top-spitfire.jpg> Supermarine Spitfire </img>
+			<img src=http://www.aircraftaces.com/images/top-junkers-87-stuka.jpg> Junkers 87 Stuka </img>
+            
         </div>
         <div class="cbox">
             <h3>Select Stage: </h3>
