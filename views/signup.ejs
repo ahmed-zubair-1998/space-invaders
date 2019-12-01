@@ -1,17 +1,36 @@
 <!DOCTYPE HTML>
 <html>
-    <head></head>
-    <body>
-        <form method="POST" action="/signup">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <title>Plane Invaders</title>
+</head>
+
+<body>
+    <div class="intro">
+        <h1>Sign Up</h1>
+    </div>
+    <div class="form marginTop">
+        <form method="POST" action="/signup" class="login-form">
             <input name="username" type="text" placeholder="username" required>
             <input name="password" type="password" placeholder="password" required>
             <input name="confirm" type="password" placeholder="confirm password" required>
-            <label id="lbl">
+            <label id="lb2">
                 <%= label %>
             </label>
             <button type="submit">Sign Up</button>
         </form>
-        
-        
-    </body>
+        <form method="GET" action="/login">
+            <p class="message">Already registered? </p>
+            <br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+</body>
+
 </html>

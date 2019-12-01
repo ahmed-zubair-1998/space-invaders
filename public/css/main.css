@@ -1,0 +1,116 @@
+ /* Styling needed for a fullscreen canvas and no scrollbars. */
+ body,
+ html {
+     width: 100%;
+     height: 100%;
+     margin: 0;
+     padding: 0;
+     overflow: hidden;
+ }
+
+ #starfield {
+     width: 100%;
+     height: 100%;
+     z-index: -1;
+     position: absolute;
+     margin-left: auto;
+     margin-right: auto;
+ }
+
+ #gamecontainer {
+     width: 800px;
+     margin-left: auto;
+     margin-right: auto;
+     align-content: center;
+ }
+
+ #gamecanvas {
+     width: 800px;
+     height: 600px;
+     align-content: center;
+ }
+
+ .plane-info {
+     padding: 10px;
+     background-color: transparent;
+     height: 100%;
+     width: 320px;
+     position: absolute;
+     left: 0;
+     text-align: center;
+ }
+
+ h3 {
+     color: white;
+ }
+
+ .leaderboard {
+     padding: 10px;
+     margin-right: 20px;
+     background-color: transparent;
+     height: 100%;
+     width: 300px;
+     position: absolute;
+     right: 0;
+     top: 0;
+     text-align: center;
+ }
+
+ .selection {
+     position: absolute;
+     align-content: center;
+     height: 150px;
+     width: 400px;
+     float: right;
+     padding: 10px;
+     margin-top: 10px;
+     margin-left: 600px;
+ }
+
+ .background {
+     background-color: #121212;
+     color: white;
+     height: 100%;
+ }
+
+ .plane-heading {
+     text-align: center;
+     padding: 20px;
+ }
+
+ .cbox {
+     height: 30%;
+     padding: 20px;
+     margin: 0px 20px;
+ }
+
+ .selectBox {
+     width: 100px;
+     height: 100px;
+     background: white;
+     color: #121212;
+     text-align: center;
+     border-radius: 5%;
+     display: inline-block;
+     padding: 10px;
+     margin: 0px 5px;
+ }
+
+ .active,
+ .selectBox:hover {
+     background-color: #666;
+     color: white;
+ }
+
+ .playDiv {
+     margin: auto;
+     text-align: center;
+     margin: 30px 0px;
+ }
+
+ .playbtn {
+     background: white;
+     border-radius: 7%;
+     color: #121212;
+     padding: 20px;
+ }
