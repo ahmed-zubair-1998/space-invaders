@@ -37,7 +37,6 @@ app.use((req, res, next) => {
 
 app.get('/', auth, (req, res, next) => {
     sess = req.session;
-    console.log("AJAJAAA");
     res.render('selection', { level: sess.maxLevel, plane: sess.maxPlane });
 });
 app.get('/game', auth, (req, res, next) => {

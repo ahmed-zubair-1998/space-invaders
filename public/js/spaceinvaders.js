@@ -53,8 +53,8 @@ function Game() {
         limitLevelIncrease: 25
     };
 
-    
-    
+
+
     //  All state is in the variables below.
     this.lives = parseInt(sess.dataset.lives);
     this.width = 0;
@@ -63,11 +63,11 @@ function Game() {
     this.intervalId = 0;
     this.score = parseInt(sess.dataset.score);
     this.level = parseInt(sess.dataset.level);
-    
+
     console.log(parseInt(sess.dataset.level));
-    
-    
-    
+
+
+
 
     //  The state stack.
     this.stateStack = [];
@@ -551,21 +551,21 @@ PlayState.prototype.update = function (game, dt) {
     }
 
     //  Check for failure
-    if (game.lives <= 0) { 
-    
+    if (game.lives <= 0) {
+
         game.stop();
-        
+
         let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function(){
+        xhttp.onreadystatechange = function () {
             console.log(this.status);
-            if(this.readyState == 4 && this.status == 200){
+            if (this.readyState == 4 && this.status == 200) {
                 window.location.href = 'http://localhost:3000/game';
-            } 
-        } 
-        xhttp.open('POST', url='http://localhost:3000/result', true);
+            }
+        }
+        xhttp.open('POST', url = 'http://localhost:3000/result', true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send(`score=${game.score}`); 
-        
+        xhttp.send(`score=${game.score}`);
+
         game.moveToState(new GameOverState());
     }
 
@@ -573,20 +573,20 @@ PlayState.prototype.update = function (game, dt) {
     if (this.invaders.length === 0) {
         game.score += this.level * 50;
         game.stop();
-        
+
         let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function(){
+        xhttp.onreadystatechange = function () {
             console.log(this.status);
-            if(this.readyState == 4 && this.status == 200){
+            if (this.readyState == 4 && this.status == 200) {
                 window.location.href = 'http://localhost:3000/game';
             }
         }
-        xhttp.open('POST', url='http://localhost:3000/unlock-level', true);
+        xhttp.open('POST', url = 'http://localhost:3000/unlock-level', true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send(`score=${game.score}&lives=${game.lives}`);
-            
-          
-        
+
+
+
         game.level += 1;
         game.moveToState(new LevelIntroState(game.level));
     }
@@ -891,3 +891,8 @@ Sounds.prototype.playSound = function (name) {
     source.connect(this.audioContext.destination);
     source.start(0);
 };
+
+
+function pauseGame() {
+    game.pushState(new PauseState());
+}

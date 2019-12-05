@@ -51,18 +51,19 @@
                     Game</button>
                 <br>
                 <br>
-                <form method="POST" action="/logout">
-                    <button type="submit" class="playbtn"> Logout</button>
-                </form>
-                <br>
                 <button type="button" class="playbtn" data-toggle="modal" data-target="#exampleModal">Show Leaderboard
                 </button>
-                
+                <br>
+                <br>
                 <form method="POST" action="/selection">
                     <button type="submit" class="playbtn">Select Plane/Level
                     </button>
                 </form>
-                
+                <br>
+                <form method="POST" action="/logout">
+                    <button type="submit" class="playbtn"> Logout</button>
+                </form>
+
 
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -78,7 +79,7 @@
                             <div class="modal-body">
                                 <ul class="list-group">
                                     <%for( var i=0; i<10 && results!=null; i++){%>
-                                    <li class="list-group-item"><%=results[i].user%>:<%=results[i].score%>
+                                    <li class="list-group-item"><b><%=results[i].user%></b>: <%=results[i].score%>
                                     </li>
                                     <%}%>
                                                 </ul>
@@ -92,69 +93,70 @@
             </div>
         </div>  
     </div>
-    <div data-lives="<%= lives %>" data-level="<%= level %>" data-score="<%= score %>" id="help"></div> 
-    
+    <div data-lives="<%= lives %>" data-level="<%= level %>" data-score="<%= score %>" id="help">
+                            </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-	<script>
-        function pauseGame() {
-            alert("The game is paused! Click OK to resume");
-        }
-    </script>
-    <script src="static/js/bootstrap.min.js"></script>
-    <script src="static/js/starfield.js"></script>
-    <script src="static/js/spaceinvaders.js"></script>
-    <script>
 
-        //  Create the starfield.
-        var container = document.getElementById('starfield');
-        var starfield = new Starfield();
-        starfield.initialise(container);
-        starfield.start();
+                            <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+                                integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+                                crossorigin="anonymous"></script>
+                            <!-- <script>
+                                function pauseGame() {
+                                    alert("The game is paused! Click OK to resume");
+                                }
+                            </script> -->
+                            <script src="static/js/bootstrap.min.js"></script>
+                            <script src="static/js/starfield.js"></script>
+                            <script src="static/js/spaceinvaders.js"></script>
+                            <script>
 
-        //  Setup the canvas.
-        var canvas = document.getElementById("gameCanvas");
-        canvas.width = 800;
-        canvas.height = 600;
+                                //  Create the starfield.
+                                var container = document.getElementById('starfield');
+                                var starfield = new Starfield();
+                                starfield.initialise(container);
+                                starfield.start();
 
-        //  Create the game.
-        var game = new Game();
+                                //  Setup the canvas.
+                                var canvas = document.getElementById("gameCanvas");
+                                canvas.width = 800;
+                                canvas.height = 600;
 
-        //  Initialise it with the game canvas.
-        game.initialise(canvas);
+                                //  Create the game.
+                                var game = new Game();
 
-        //  Start the game.
-        game.start();
+                                //  Initialise it with the game canvas.
+                                game.initialise(canvas);
 
-        //  Listen for keyboard events.
-        window.addEventListener("keydown", function keydown(e) {
-            var keycode = e.which || window.event.keycode;
-            //  Supress further processing of left/right/space (37/29/32)
-            if (keycode == 37 || keycode == 39 || keycode == 32) {
-                e.preventDefault();
-            }
-            game.keyDown(keycode);
+                                //  Start the game.
+                                game.start();
 
-        });
-        window.addEventListener("keyup", function keydown(e) {
-            var keycode = e.which || window.event.keycode;
-            game.keyUp(keycode);
-        });
+                                //  Listen for keyboard events.
+                                window.addEventListener("keydown", function keydown(e) {
+                                    var keycode = e.which || window.event.keycode;
+                                    //  Supress further processing of left/right/space (37/29/32)
+                                    if (keycode == 37 || keycode == 39 || keycode == 32) {
+                                        e.preventDefault();
+                                    }
+                                    game.keyDown(keycode);
 
-        window.addEventListener("touchstart", function (e) {
-            game.touchstart(e);
-        }, false);
+                                });
+                                window.addEventListener("keyup", function keydown(e) {
+                                    var keycode = e.which || window.event.keycode;
+                                    game.keyUp(keycode);
+                                });
 
-        window.addEventListener('touchend', function (e) {
-            game.touchend(e);
-        }, false);
+                                window.addEventListener("touchstart", function (e) {
+                                    game.touchstart(e);
+                                }, false);
 
-        window.addEventListener('touchmove', function (e) {
-            game.touchmove(e);
-        }, false);
-    </script>
+                                window.addEventListener('touchend', function (e) {
+                                    game.touchend(e);
+                                }, false);
+
+                                window.addEventListener('touchmove', function (e) {
+                                    game.touchmove(e);
+                                }, false);
+                            </script>
 </body>
 
 </html>

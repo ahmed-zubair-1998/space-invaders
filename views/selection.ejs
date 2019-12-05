@@ -12,40 +12,38 @@
 
 <body>
     <div class="container-fluid background">
-		<form method="POST" class="logout" action="/logout">
+        <form method="POST" class="logout" action="/logout">
             <button type="submit" class="playbtn"> Logout</button>
         </form>
         <h3 class="display-4 plane-heading">Main Selection Menu</h3>
-        
+
         <form method="POST" action="/">
             <h4>Select Level</h4>
             <% for(let i = 1; i <= level && i <= 10; i++) { %>
-                <label class="radio-inline">
-                  <input type="radio" name="level" value= <%= i %>
-                         <% if(i === 1) { %>
-                            <%= "checked" %>
-                         <% } %>
-                         > <%= i %>
-                </label>
+            <label class="radio-inline">
+                <input type="radio" name="level" class="selectBox" value=<%= i %> <% if(i === 1) { %> <%= "checked" %>
+                    <% } %>>
+                <h3><%= i %></h3>
+            </label>
             <% } %>
-            
+
             <h4>Select Plane</h4>
             <% for(let i = 1; i <= plane && i <= 10; i++) { %>
-                <label class="radio-inline">
-                  <input type="radio" name="plane" value= <%= i %>
-                         <% if(i === 1) { %>
-                            <%= "checked" %>
-                         <% } %>
-                         > <%= i %>
-                </label>
+            <label class="radio-inline">
+                <input type="radio" name="plane" class="selectBox" value=<%= i %> <% if(i === 1) { %> <%= "checked" %>
+                    <% } %>>
+                <h3><%= i %></h3>
+            </label>
             <% } %>
-            
+
             <div class="playDiv">
-            <button type="submit" class="playbtn"><h4>P L A Y</h4></button>
-        </div>
-            
+                <button type="submit" class="playbtn">
+                    <h4>P L A Y</h4>
+                </button>
+            </div>
+
         </form>
-        
+
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
