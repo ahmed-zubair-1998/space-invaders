@@ -23,7 +23,7 @@ app.use(session({ secret: 'ssshhhhh', saveUninitialized: true, resave: true }));
 console.log("OK") 
 var sess;
 var highscores;
-mongoose.connect('mongodb+srv://ahmed:zubair@cluster0-qdtb8.mongodb.net/test?retryWrites=true&w=majority')
+mongoose.connect('YOUR_MONGODB_CONNECTION_STRING_HERE')
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
